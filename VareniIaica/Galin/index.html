@@ -1,0 +1,44 @@
+<html>
+<head>
+</head>
+<body>
+    <script src="environment.js"></script>
+    <script src="brain.js"></script>
+
+    <script>
+        window.browserVisualiser =  {
+            onShortTermMemoryUpdate: (memory, subject) => {
+                document.querySelector("#subject").innerHTML = "<p><b>Current subject:</b> " + subject + "</p>";
+                let memDumpElement = document.querySelector("#stMemotyDump");
+                memDumpElement.innerHTML = "<p>" + JSON.stringify(memory) + "</p>"; 
+                memDumpElement.scrollBy(0, 9999999999);
+            }, 
+            logConceptOutput: (source, event) => {
+                output = "";
+                if (source.sensesToUse.includes("self")) {
+                    output += "[Abstract] ";
+                }
+                output += source.constructor.name + ": "
+
+                output = "<b>" + output + "</b>";
+                output += event;
+                let logElement = document.querySelector("#log");
+                logElement.innerHTML += "<p>" + output + "</p>";
+                logElement.scrollBy(0, 9999999999);
+            }
+        }
+
+
+        let env = new Environment();
+
+    </script>
+    <div>
+        <input type="button" onclick="env.nextBatch();" value="Next event batch" />
+    </div>
+    <h3>Concepts log:</h3>
+    <div id="log" style="width:100%; height: 300px; overflow: scroll;"></div>
+    <h3>Short Term Memory:</h3>
+    <div id="subject"></div>
+    <div id="stMemotyDump" style="width:100%; height: 300px; overflow: scroll;"></div>
+</body>
+</html>
